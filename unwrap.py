@@ -121,7 +121,10 @@ for i in range(len(yearsNoCleaned)):
             labels = line.split(',')
             for c in range(len(array2DIndexes[i])-1):
                 #print(labels[array2DIndexes[i][c]],labels[array2DIndexes[i][c]].replace(str(yearsNoCleaned[i]),""),str(i))
-                fout.write(labels[array2DIndexes[i][c]].replace(str(yearsNoCleaned[i]),"")+",")
+                label = labels[array2DIndexes[i][c]].replace(str(yearsNoCleaned[i]),"")
+                label = label.replace(str(yearsNoCleaned[i]+1),"n")
+                label = label.replace(str(yearsNoCleaned[i]-1),"p")
+                fout.write(label+",")
             if("\n" in labels[array2DIndexes[i][len(array2DIndexes[i])-1]]):
                 fout.write(labels[array2DIndexes[i][len(array2DIndexes[i])-1]][0:len(labels[array2DIndexes[i][len(array2DIndexes[i])-1]])-1].replace(str(yearsNoCleaned[i]),"")+",RepeatYear" +"\n")
             else : 
@@ -141,6 +144,10 @@ for i in range(len(yearsNoCleaned)):
     fout.close()
 
 finp.close()
+
+
+# find all files in outDir+"/tmp/" and replace year(n+1) to year_ny, cut(n+1) to cut_ny, cut(n-1) to cut_py and year(n-1) to cut(np)
+#files = glob.glob(outDir+"/tmp/", filename + "_"+"*.csv")
 
 
 # merging the files
