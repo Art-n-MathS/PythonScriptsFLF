@@ -49,3 +49,31 @@ cd %pyDir%
 Rem Method that unwraps field plots, so that I can search plots by year
 python unwrap.py -in %fpDir%L1/ -out %fpDir%L2
 Rem ------------------------------------------------------------------------------
+
+
+Rem ------------------------------------------------------------------------------
+Rem use the FielData_test as an example of how to extract feature vectors from 
+Rem sattelite images of interest
+
+Rem ------------------------------------------------------------------------------
+Rem use the Masks_test as an example of how to export a combined mask of interest
+
+Rem ------------------------------------------------------------------------------
+Rem download makes and feature vectors exported to google drive
+
+set dataDir="C:/Users/mm2705/Documents/Cambridge/Scripts/SampleData/"
+set idColName="index"
+
+
+Rem ------------------------------------------------------------------------------
+Rem Method that takes as input the exported field data from the GEE script and 
+Rem reduce them to have the mean and std of each plot
+Rem ------------------------------------------------------------------------------
+python reduceCSVgetStats.py -icsv %dataDir%TestIndClassSentinel2c.csv.csv -indexCoName %idColName% -ocsv %dataDir%TestIndClassSentinel2b_reduced_c.csv
+
+
+Rem ------------------------------------------------------------------------------
+Rem Method that takes the reduced data and 
+Rem 
+Rem ------------------------------------------------------------------------------
+python mergeCSVsBasedOnID.py -icsv1 %dataDir%TestIndClassSentinel2b_reduced_c.csv -icsv2 %dataDir%fieldDatawithIds.csv -label "index" -ocsv  %dataDir%mergedcsv.csv

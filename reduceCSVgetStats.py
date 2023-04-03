@@ -17,7 +17,7 @@
 #  how to run: python reduceCSVgetStats.py -icsv <icsv.csv> -indexCoName <indexCoName> -ocsv <ocsv.csv> 
 #
 #
-# example:  python "C:/Users/mm2705/Documents/Cambridge/Scripts/PythonScriptsFLF/reduceCSVgetStats.py" -icsv "C:/Users/mm2705/Documents/Cambridge/Scripts/SampleData/TestIndClassSentinel2b.csv.csv" -indexCoName "class" -ocsv "C:/Users/mm2705/Documents/Cambridge/Scripts/SampleData/TestIndClassSentinel2b_reduced.csv"
+# example:  python "C:/Users/mm2705/Documents/Cambridge/Scripts/PythonScriptsFLF/reduceCSVgetStats.py" -icsv "C:/Users/mm2705/Documents/Cambridge/Scripts/SampleData/TestIndClassSentinel2c.csv.csv" -indexCoName "index" -ocsv "C:/Users/mm2705/Documents/Cambridge/Scripts/SampleData/TestIndClassSentinel2b_reduced_c.csv"
 #
 
 
@@ -45,9 +45,9 @@ icsv        = params["icsv"       ]
 indexCoName = params["indexCoName"]
 ocsv        = params["ocsv"       ]
 
-print ("icsv        = ", icsv       ) 
-print ("indexCoName = ", indexCoName)
-print ("ocsv        = ", ocsv       ) 
+#print ("icsv        = ", icsv       ) 
+#print ("indexCoName = ", indexCoName)
+#print ("ocsv        = ", ocsv       ) 
 
 
 dfIn = pd.read_csv(icsv)
@@ -70,7 +70,7 @@ p.remove(indexCoName)
 for id in p :
     f.write(id+"_mean,"+id+"_std,")
 f.write(indexCoName+"\n")
-print(originalLabels)
+print("originalLabels", originalLabels)
 
 
 # Loop through the plots and find the mean std of each feature vector and 
@@ -81,16 +81,13 @@ for id in plotIds :
      tmpDF = tmpDF.drop(columns=[indexCoName])
      # Loop through each feature, calculate mean, std and save into csv file
      for featureLabel in tmpDF:
-          print(featureLabel)
           featureList = tmpDF[featureLabel]
           mean = np.mean(featureList)
           std = np.std(featureList)
           f.write(str(mean)+","+str(std)+",")
           #print(featureList)
      f.write(str(id)+"\n")  
-     print(id)
-     print("------------------------------------")
-
-print(plotIds)
-
 f.close()
+
+print("File with reduced data store at:", ocsv)
+print("   ***   EXIT   ***")
