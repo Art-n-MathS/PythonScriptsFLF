@@ -1,4 +1,4 @@
-## @package GeoImage2
+## @package GeoImage
 #  This class contains an image and can apply various functions to it 
 #  (for example canny edge).
 #  @author Dr. Milto Miltiadou
@@ -33,7 +33,12 @@ class GeoImage:
         self.imArr = []
         self.cols = self.inp_raster.RasterXSize
         self.rows = self.inp_raster.RasterYSize
-               
+        self.proj = self.inp_raster.GetProjection()
+        srs=osr.SpatialReference(wkt=self.proj)
+        if srs.IsProjected:
+            print (srs.GetAttrValue('projcs'))
+            print (srs.GetAttrValue('geogcs'))
+
         ## the geo transformation of the image
         self.geoTransform = self.inp_raster.GetGeoTransform()
         self.xOrigin     = self.geoTransform[0] 
@@ -45,6 +50,8 @@ class GeoImage:
         print ("ymin, ymax:", self.yOrigin-self.cols*self.pixelHeight, self.yOrigin)
         print ("pixelwidth x pixelheight:", self.pixelWidth, self.pixelHeight)
         print ("cols x rows:", self.cols, self.rows)
+        #print ("Projection: ", self.proj)
+
         print ("-----------------------------------")
 
     def getNoOfBands(self):
