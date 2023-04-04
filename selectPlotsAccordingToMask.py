@@ -97,38 +97,25 @@ else: #-r q3
      subprocess.call(cmd, shell=True)
 
 df1 = pd.read_csv(icsv)
-Xdata = df1[xcol]
-Ydata = df1[ycol]
-if(len(Xdata)!=len(Ydata)):
-    raise Exception("ERROR: the number of x and y coordinates should be equal!")
+df1["index"] = list(range(0,len(df1)))
+Xdata   = df1[xcol   ]
+Ydata   = df1[ycol   ]
+indexes = df1["index"]
+
+if(len(Xdata)!=len(Ydata) or len(indexes)!=len(Ydata)):
+    raise Exception("ERROR: the number of x and y coordinates and indexes should be equal!")
 #else:
     # the number of x and y coordinates are equal
 
 maskGeoTifReproj = GeoImage.GeoImage(reprojMask)  
-print("****",maskGeoTifReproj.getNoOfBands())    
 
-maskGeoTif.loadBand(1)
+maskGeoTifReproj.loadBand(1)
 for i in range(0, len(Xdata)):
     maskVal = maskGeoTifReproj.getPixelValuefromGeo(Xdata[i],Ydata[i])
-    print(Xdata[i],Ydata[i],maskVal)
+    if (int(maskVal)==0):
+        idx = indexes[i]
+        df1=df1.drop(idx)
 
-    
- 
+df1.to_csv(ocsv, index=False)
 
-
-
-
-source = osr.SpatialReference()
-source.ImportFromEPSG(2927)
-
-target = osr.SpatialReference()
-target.ImportFromEPSG(4326)
-
-transform = osr.CoordinateTransformation(source, target)
-
-point = ogr.CreateGeometryFromWkt("POINT (1120351.57 741921.42)")
-point.Transform(transform)
-print (point.GetX(), point.GetY())
-
-
-print (point.ExportToWkt())
+print ("   ***   EXIT   ***")

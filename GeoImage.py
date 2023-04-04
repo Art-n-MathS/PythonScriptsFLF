@@ -82,8 +82,6 @@ class GeoImage:
     def getPixelValuefromGeo(self, i_geoX, i_geoY): 
        if not self.bandLoaded :
            sys.exit("ERROR: Please load a band first")
-       if(self.yOrigin>i_geoY or self.xOrigin<i_geoX or self.yOrigin-i_geoY>self.rows*self.pixelHeight or i_geoX-self.xOrigin>self.cols*self.pixelWidth):
-          return self.noValue
        xOffset = int((i_geoX-self.xOrigin) / self.pixelWidth)
        yOffset = int((self.yOrigin-i_geoY) / self.pixelHeight)
        #print ("self.yOrigin, i_geoY",self.yOrigin,i_geoY, yOffset)
@@ -92,6 +90,7 @@ class GeoImage:
        if (xOffset>=0 and xOffset<self.cols and yOffset>=0 and yOffset<self.rows):
           return self.imArr[yOffset][xOffset]
        else:
+          print("WARNING:", i_geoX, i_geoY, "Outside image Limits")
           return self.noValue
     
     ## method that returns the value of a pixel

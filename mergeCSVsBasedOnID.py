@@ -55,6 +55,8 @@ df2 = pd.read_csv(icsv2)
 
 mergedDF = pd.merge(df1, df2,on=label,how='outer')
 
-mergedDF.to_csv(ocsv)
+mergedDF.to_csv(ocsv, index=False)
+
+
 
 print("   ***   EXIT   ***")
